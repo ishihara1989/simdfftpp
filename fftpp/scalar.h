@@ -12,19 +12,17 @@ void fft_core(int n, int s, T* x, T* xi, T* y, T* yi)
     const int n3 = n1 + n2;
     const T theta0 = 2*M_PI/n;
 
-    if (n == 1) { }
-    else if (n == 2) {
+    if (n == 2) {
         for (int q = 0; q < s; q++) {
-            const T a = x[q + 0];
-            const T ai = xi[q + 0];
+            const T a = x[q];
+            const T ai = xi[q];
             const T b = x[q + s];
             const T bi = xi[q + s];
-            y[q + 0] = a + b;
-            yi[q + 0] = ai + bi;
+            y[q] = a + b;
+            yi[q] = ai + bi;
             y[q + s] = a - b;
             yi[q + s] = ai - bi;
         }
-        fft_core<is_inverse, T>(1, 2*s, y, yi, x, xi);
     }
     else if (n > 2) {
         for (int p = 0; p < n1; p++){
@@ -51,8 +49,8 @@ void fft_core(int n, int s, T* x, T* xi, T* y, T* yi)
                 const T  amci = ai - ci;
                 const T  bpdi = bi + di;
                 const T jbmdi = b - d;
-                y[q + s*(4*p + 0)] = apc +  bpd;
-                yi[q + s*(4*p + 0)] = apci +  bpdi;
+                y[q + s*(4*p)] = apc +  bpd;
+                yi[q + s*(4*p)] = apci +  bpdi;
                 if constexpr (is_inverse){
                     y[q + s*(4*p + 1)] = w1p*(amc + jbmd) - w1pi*(amci + jbmdi);
                     yi[q + s*(4*p + 1)] = w1p*(amci + jbmdi) + w1pi*(amc + jbmd);
