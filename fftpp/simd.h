@@ -177,23 +177,23 @@ static inline auto cmul(__m256 a, __m256 b){
 static inline auto cmul(__m128d a, __m128d b){
     // [a, b] [c, d] -> [ac-bd, ad+bc]
     // [ac, ad] addsub [bd, bc]
-    auto r1 = _mm_permute_pd(a, 0x00);//a a
+    auto r1 = _mm_permute_pd(a, 0b00);//a a
     auto r2 = b;
-    auto i1 = _mm_permute_pd(a, 0x11);
-    auto i2 = _mm_permute_pd(b, 0x01);
+    auto i1 = _mm_permute_pd(a, 0b11);
+    auto i2 = _mm_permute_pd(b, 0b01);
     _mm_addsub_pd(mul(r1, r2), mul(i1, i2));
 }
 
 static inline auto cmul(__m256d a, __m256d b){
-    auto r1 = _mm256_permute_pd(a, 0x00);//a a
+    auto r1 = _mm256_permute_pd(a, 0b00);//a a
     auto r2 = b;
-    auto i1 = _mm256_permute_pd(a, 0x11);
-    auto i2 = _mm256_permute_pd(b, 0x01);
+    auto i1 = _mm256_permute_pd(a, 0b11);
+    auto i2 = _mm256_permute_pd(b, 0b01);
     _mm256_addsub_pd(mul(r1, r2), mul(i1, i2));
 }
 
 static inline auto jmul(__m256 a){
     const auto zero = _mm256_setzero_ps();
-    const auto perm = _mm256_permute_ps(a, 0x11100001);
-    const auto jbmd = _mm256_addsub_ps(zero, perm); //[-b, a, ...]
+    const auto perm = _mm256_permute_ps(a, 0b11100001);
+    return _mm256_addsub_ps(zero, perm); //[-b, a, ...]
 }

@@ -6,7 +6,7 @@
 
 using namespace std;
 int main(){
-    int size = 128;
+    int size = 256;
     using T=float;
     constexpr int N=8;
 
@@ -25,4 +25,9 @@ int main(){
         cout << cx[i] << ",";
     }
     cout << endl;
+
+    for(int i=0;i<32;i++){
+        cout << WaveTable<32,false, float>().table[i]<<",";
+    }
+    cout << WaveTable<32,false, float>().mask << endl;
 }
